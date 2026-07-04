@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 400 500">
+  <defs>
+    <pattern id="check" width="16" height="16" patternUnits="userSpaceOnUse">
+      <rect width="16" height="16" fill="#d9be94"/>
+      <rect width="8" height="16" fill="#7a1f2b" opacity="0.55"/>
+      <rect width="16" height="8" fill="#7a1f2b" opacity="0.55"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="500" fill="#faf3e6"/>
+  <rect width="400" height="500" fill="url(#check)" opacity="0.14"/>
+  <rect x="16" y="16" width="368" height="468" fill="none" stroke="#b9922f" stroke-width="1.5"/>
+  <g transform="translate(200,190)"><circle cx="0" cy="10" r="42" fill="none" stroke="#b9922f" stroke-width="8"/><path d="M -16,-32 L 0,-58 L 16,-32 Z" fill="none" stroke="#b9922f" stroke-width="3" stroke-linejoin="round"/></g>
+  <text x="200" y="380" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#4a1017">Hammered Chain-Link</text><text x="200" y="412" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#4a1017">Ring</text>
+  <text x="200" y="454" text-anchor="middle" font-family="Georgia, serif" font-size="13" letter-spacing="4" fill="#b9922f">AURASIL</text>
+</svg>
