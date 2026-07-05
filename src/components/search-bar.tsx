@@ -36,8 +36,8 @@ export function SearchBar() {
         onBlur={() => {
           if (!query.trim()) setOpen(false);
         }}
-        placeholder="Search products…"
-        className="h-8 w-32 border border-border bg-transparent px-2 text-sm outline-none focus:border-primary sm:w-56"
+        placeholder="Search…"
+        className="h-8 w-20 border border-border bg-transparent px-2 text-sm outline-none focus:border-primary sm:w-56"
       />
       <button type="button" onClick={() => setOpen(false)} aria-label="Close search">
         <X className="h-4 w-4" />

@@ -35,8 +35,8 @@ export function SiteHeader() {
     <>
       <TopBar />
       <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:gap-6 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3">
             <button
               className="lg:hidden"
               onClick={() => setMenuOpen((o) => !o)}
@@ -47,7 +47,7 @@ export function SiteHeader() {
 
             <Link
               href="/"
-              className="font-heading text-2xl tracking-[0.15em] text-primary"
+              className="font-heading text-xl tracking-widest text-primary sm:text-2xl sm:tracking-[0.15em]"
             >
               AURASIL
             </Link>
@@ -70,7 +70,7 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3 sm:gap-5">
             <SearchBar />
 
             {mounted && status === "authenticated" && session?.user ? (

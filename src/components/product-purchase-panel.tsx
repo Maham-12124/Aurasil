@@ -51,7 +51,7 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
 
       <Separator className="my-6" />
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center border border-border">
           <button
             className="p-3"
@@ -70,12 +70,6 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
           </button>
         </div>
         <Button
-          className="flex-1 rounded-none py-6 text-xs uppercase tracking-widest"
-          onClick={() => addItem(product, quantity)}
-        >
-          Add to Bag — {formatPrice(product.price * quantity)}
-        </Button>
-        <Button
           size="icon"
           variant="outline"
           className="h-13 w-13 shrink-0 rounded-none"
@@ -83,6 +77,12 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
           aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}
         >
           <Heart className={cn("h-5 w-5", saved && "fill-primary text-primary")} />
+        </Button>
+        <Button
+          className="min-w-55 flex-1 rounded-none py-6 text-xs uppercase tracking-widest"
+          onClick={() => addItem(product, quantity)}
+        >
+          Add to Bag — {formatPrice(product.price * quantity)}
         </Button>
       </div>
 

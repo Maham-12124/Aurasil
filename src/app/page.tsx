@@ -49,18 +49,18 @@ export default async function Home() {
             Gold-toned earrings, necklaces, rings and bracelets — considered
             pieces for daily wear and desi wedding occasions alike.
           </p>
-          <div className="flex gap-3">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <Button
               size="lg"
               nativeButton={false}
-              className="rounded-none px-8 uppercase tracking-widest"
+              className="w-full rounded-none px-8 uppercase tracking-widest sm:w-auto"
               render={<Link href="/products">Shop All Jewelry</Link>}
             />
             <Button
               size="lg"
               nativeButton={false}
               variant="outline"
-              className="rounded-none border-primary px-8 uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground"
+              className="w-full rounded-none border-primary px-8 uppercase tracking-widest text-primary hover:bg-primary hover:text-primary-foreground sm:w-auto"
               render={<Link href="/products?new=true">New Arrivals</Link>}
             />
           </div>
@@ -78,7 +78,7 @@ export default async function Home() {
 
       {/* New Arrivals */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mb-10 flex items-end justify-between">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-primary">Just Landed</p>
             <h2 className="mt-2 font-heading text-3xl">New Arrivals</h2>

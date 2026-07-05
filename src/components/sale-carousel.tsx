@@ -22,7 +22,7 @@ export function SaleCarousel({ products }: { products: Product[] }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="mb-8 flex items-end justify-between gap-4">
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="flex items-center gap-1.5 text-xs uppercase tracking-[0.3em] text-primary-foreground">
             <Flame className="h-3.5 w-3.5" />

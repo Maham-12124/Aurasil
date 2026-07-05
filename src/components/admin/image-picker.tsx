@@ -83,7 +83,7 @@ export function ImagePicker({ name, defaultValue }: { name: string; defaultValue
         )}
       >
         <p>Drag &amp; drop an image here, or</p>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap justify-center gap-3">
           <Button
             type="button"
             variant="outline"

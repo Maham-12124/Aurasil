@@ -115,7 +115,7 @@ export function ProductsGrid({
 
       {/* Grid */}
       <div className="flex-1">
-        <div className="mb-6 flex items-center justify-between border-b border-border pb-4">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
           <p className="text-sm text-muted-foreground">{filtered.length} pieces</p>
           <div className="flex items-center gap-4">
             <select
