@@ -1,12 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product-card";
 import { useWishlistStore } from "@/lib/wishlist-store";
 
 export default function WishlistPage() {
-  const items = useWishlistStore((s) => s.items);
+  const storedItems = useWishlistStore((s) => s.items);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  // Wishlist state comes from localStorage, which the server can't see —
+  // rendering as empty until mount keeps SSR/client markup in sync.
+  const items = mounted ? storedItems : [];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

@@ -28,8 +28,13 @@ type PaymentMethod = "COD" | "BANK_TRANSFER";
 export function CheckoutForm() {
   const router = useRouter();
   const { data: session } = useSession();
-  const lines = useCartStore((s) => s.lines);
+  const storedLines = useCartStore((s) => s.lines);
   const clear = useCartStore((s) => s.clear);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  // Cart state comes from localStorage, which the server can't see —
+  // rendering as empty until mount keeps SSR/client markup in sync.
+  const lines = mounted ? storedLines : [];
   const total = cartTotal(lines);
 
   const [customerName, setCustomerName] = useState("");

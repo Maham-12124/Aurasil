@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Heart, Minus, Plus, ShieldCheck, Droplets, Gem } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +13,13 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((s) => s.addItem);
   const toggleWishlist = useWishlistStore((s) => s.toggle);
-  const saved = useWishlistStore((s) => s.isSaved(product.id));
+  const isSaved = useWishlistStore((s) => s.isSaved(product.id));
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  // Wishlist state comes from localStorage, which the server can't see —
+  // rendering it as "not saved" until mount keeps SSR/client markup in
+  // sync and avoids a hydration mismatch.
+  const saved = mounted && isSaved;
 
   return (
     <div className="flex flex-col">

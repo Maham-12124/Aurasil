@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, Plus } from "lucide-react";
@@ -12,7 +13,13 @@ import { cn } from "@/lib/utils";
 export function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((s) => s.addItem);
   const toggleWishlist = useWishlistStore((s) => s.toggle);
-  const saved = useWishlistStore((s) => s.isSaved(product.id));
+  const isSaved = useWishlistStore((s) => s.isSaved(product.id));
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  // Wishlist state comes from localStorage, which the server can't see —
+  // rendering it as "not saved" until mount keeps SSR/client markup in
+  // sync and avoids a hydration mismatch.
+  const saved = mounted && isSaved;
 
   return (
     <div className="group">
