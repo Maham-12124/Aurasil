@@ -2,8 +2,17 @@ import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { sendMail } from "@/lib/mailer";
+import { formatPrice } from "@/lib/product-types";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const NOTIFY_EMAIL = "aurasil095@gmail.com";
+
+function orderItemsHtml(items: { productName: string; quantity: number; lineTotal: number }[]) {
+  return `<ul>${items
+    .map((item) => `<li>${item.productName} × ${item.quantity} — ${formatPrice(item.lineTotal)}</li>`)
+    .join("")}</ul>`;
+}
 
 function generateOrderNumber() {
   return `AUR-${crypto.randomBytes(4).toString("hex").toUpperCase()}`;
@@ -142,6 +151,39 @@ export async function POST(request: Request) {
         },
         include: { items: true },
       });
+    });
+
+    // Best-effort notifications — a slow/failed email shouldn't fail the
+    // order itself, which was already committed above.
+    const results = await Promise.allSettled([
+      sendMail({
+        to: order.email,
+        subject: `Your Aurasil order ${order.orderNumber} has been placed`,
+        html: `
+          <p>Hi ${order.customerName},</p>
+          <p>Thank you for your order! Here's a summary:</p>
+          ${orderItemsHtml(order.items)}
+          <p><strong>Total: ${formatPrice(order.total)}</strong></p>
+          <p>Payment method: ${order.paymentMethod === "COD" ? "Cash on Delivery" : "Bank Transfer"}</p>
+          <p>Order Number: <strong>${order.orderNumber}</strong> — keep this to track your order.</p>
+        `,
+      }),
+      sendMail({
+        to: NOTIFY_EMAIL,
+        subject: `New order placed — ${order.orderNumber}`,
+        html: `
+          <p><strong>${order.customerName}</strong> (${order.email}, ${order.phone}) just placed an order.</p>
+          ${orderItemsHtml(order.items)}
+          <p><strong>Total: ${formatPrice(order.total)}</strong></p>
+          <p>Payment method: ${order.paymentMethod === "COD" ? "Cash on Delivery" : "Bank Transfer"}</p>
+          <p>Shipping to: ${order.address}, ${order.city}</p>
+        `,
+      }),
+    ]);
+    results.forEach((result) => {
+      if (result.status === "rejected") {
+        console.error("Order email failed:", result.reason);
+      }
     });
 
     return NextResponse.json({ id: order.id, orderNumber: order.orderNumber }, { status: 201 });
