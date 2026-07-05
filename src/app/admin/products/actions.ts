@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
 import { prisma } from "@/lib/prisma";
-import type { Collection } from "@/lib/product-types";
+import { sendMail } from "@/lib/mailer";
+import { formatPrice, type Collection } from "@/lib/product-types";
+
+const SITE_URL = process.env.SITE_URL ?? "http://localhost:3000";
 
 const KNOWN_COLLECTIONS: Collection[] = ["quiet-luxury-daily", "desi-wedding-essentials"];
 
@@ -60,12 +63,38 @@ function revalidateStorefront(slug?: string) {
   if (slug) revalidatePath(`/products/${slug}`);
 }
 
+async function notifySubscribersOfNewProduct(product: { name: string; slug: string; price: number }) {
+  const subscribers = await prisma.newsletterSubscriber.findMany({ select: { email: true } });
+  if (!subscribers.length) return;
+
+  const results = await Promise.allSettled(
+    subscribers.map((subscriber) =>
+      sendMail({
+        to: subscriber.email,
+        subject: `New arrival on Aurasil: ${product.name}`,
+        html: `
+          <p>A new piece just landed on Aurasil:</p>
+          <h2>${product.name}</h2>
+          <p>${formatPrice(product.price)}</p>
+          <p><a href="${SITE_URL}/products/${product.slug}">View it here</a></p>
+        `,
+      }),
+    ),
+  );
+  results.forEach((result) => {
+    if (result.status === "rejected") {
+      console.error("New-product subscriber email failed:", result.reason);
+    }
+  });
+}
+
 export async function createProduct(formData: FormData) {
   await requireAdmin();
   const data = parseProductForm(formData);
 
-  await prisma.product.create({ data });
+  const product = await prisma.product.create({ data });
   revalidateStorefront(data.slug);
+  await notifySubscribersOfNewProduct(product);
   redirect("/admin/products");
 }
 

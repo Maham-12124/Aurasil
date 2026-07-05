@@ -8,6 +8,7 @@ const ADMIN_NAV = [
   { href: "/admin/orders", label: "Orders" },
   { href: "/admin/reviews", label: "Reviews" },
   { href: "/admin/messages", label: "Messages" },
+  { href: "/admin/subscribers", label: "Subscribers" },
   { href: "/admin/users", label: "Users" },
 ];
 

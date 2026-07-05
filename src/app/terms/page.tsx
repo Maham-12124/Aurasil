@@ -55,7 +55,7 @@ export default function TermsPage() {
       <div>
         <h2>Contact</h2>
         <p>
-          Questions about these terms can be sent to hello@aurasil.com.
+          Questions about these terms can be sent to aurasil095@gmail.com.
         </p>
       </div>
     </LegalPage>

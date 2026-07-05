@@ -20,7 +20,7 @@ const BANK_DETAILS = {
   accountTitle: "Aurasil Jewelry",
   accountNumber: "0123456789012",
   iban: "PK00MEZN0000000123456789",
-  confirmationEmail: "hello@aurasil.com",
+  confirmationEmail: "aurasil095@gmail.com",
 };
 
 type PaymentMethod = "COD" | "BANK_TRANSFER";

@@ -37,9 +37,9 @@ export function TopBar() {
             <Phone className="h-3 w-3" />
             +92 336 4961393
           </a>
-          <a href="mailto:hello@aurasil.com" className="flex items-center gap-1.5 hover:opacity-80">
+          <a href="mailto:aurasil095@gmail.com" className="flex items-center gap-1.5 hover:opacity-80">
             <Mail className="h-3 w-3" />
-            hello@aurasil.com
+            aurasil095@gmail.com
           </a>
         </div>
 
