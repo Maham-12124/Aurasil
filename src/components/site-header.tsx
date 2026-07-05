@@ -9,6 +9,7 @@ import { TopBar } from "@/components/top-bar";
 import { SearchBar } from "@/components/search-bar";
 import { cartCount, useCartStore } from "@/lib/cart-store";
 import { wishlistCount, useWishlistStore } from "@/lib/wishlist-store";
+import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
   { href: "/products", label: "All Jewelry" },
@@ -16,6 +17,7 @@ const NAV_LINKS = [
   { href: "/products?category=Necklaces", label: "Necklaces" },
   { href: "/products?category=Rings", label: "Rings" },
   { href: "/products?category=Bracelets", label: "Bracelets" },
+  { href: "/products?sale=true", label: "Sale", blink: true },
 ];
 
 export function SiteHeader() {
@@ -56,7 +58,12 @@ export function SiteHeader() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-xs uppercase tracking-widest text-foreground/80 transition-colors hover:text-primary"
+                className={cn(
+                  "text-xs uppercase tracking-widest transition-colors",
+                  link.blink
+                    ? "animate-blink text-primary font-medium"
+                    : "text-foreground/80 hover:text-primary",
+                )}
               >
                 {link.label}
               </Link>
@@ -147,7 +154,10 @@ export function SiteHeader() {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="py-2 text-sm uppercase tracking-widest text-foreground/80"
+                className={cn(
+                  "py-2 text-sm uppercase tracking-widest",
+                  link.blink ? "animate-blink font-medium text-primary" : "text-foreground/80",
+                )}
               >
                 {link.label}
               </Link>

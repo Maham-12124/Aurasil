@@ -33,18 +33,6 @@ export default async function Home() {
       "/images/products/product-01.jpg",
   }));
 
-  if (onSale.length > 0) {
-    const bracelets = categoryShowcase.findIndex((c) => c.label === "Bracelets");
-    const saleTile = {
-      label: "Sale",
-      href: "/products?sale=true",
-      image: onSale[0].image,
-      blink: true,
-    };
-    const insertAt = bracelets === -1 ? categoryShowcase.length : bracelets + 1;
-    categoryShowcase.splice(insertAt, 0, saleTile);
-  }
-
   return (
     <div>
       {/* Hero */}
