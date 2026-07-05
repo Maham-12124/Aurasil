@@ -37,6 +37,7 @@ export default async function AdminCategoriesPage() {
                 key={category.id}
                 id={category.id}
                 name={category.name}
+                image={category.image}
                 productCount={countByName.get(category.name) ?? 0}
               />
             ))}

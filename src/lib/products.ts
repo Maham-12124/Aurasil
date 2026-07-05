@@ -22,3 +22,17 @@ export function getProductsByCollection(collection: Collection): Promise<Product
     orderBy: { createdAt: "desc" },
   });
 }
+
+export function searchProducts(query: string): Promise<Product[]> {
+  return prisma.product.findMany({
+    where: {
+      OR: [
+        { name: { contains: query, mode: "insensitive" } },
+        { description: { contains: query, mode: "insensitive" } },
+        { category: { contains: query, mode: "insensitive" } },
+        { finish: { contains: query, mode: "insensitive" } },
+      ],
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}

@@ -4,11 +4,13 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export type ShowcaseCategory = {
   label: string;
   href: string;
   image: string;
+  blink?: boolean;
 };
 
 export function CategoryShowcase({ categories }: { categories: ShowcaseCategory[] }) {
@@ -54,7 +56,14 @@ export function CategoryShowcase({ categories }: { categories: ShowcaseCategory[
               sizes="(min-width: 1024px) 23vw, (min-width: 640px) 38vw, 70vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-background px-6 py-2 text-xs uppercase tracking-[0.2em] text-foreground">
+            <span
+              className={cn(
+                "absolute bottom-4 left-1/2 -translate-x-1/2 px-6 py-2 text-xs uppercase tracking-[0.2em]",
+                category.blink
+                  ? "animate-blink bg-primary text-primary-foreground"
+                  : "bg-background text-foreground",
+              )}
+            >
               {category.label}
             </span>
           </Link>

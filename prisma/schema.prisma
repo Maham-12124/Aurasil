@@ -44,6 +44,7 @@ model ContactMessage {
 model Category {
   id        String   @id @default(cuid())
   name      String   @unique
+  image     String?
   createdAt DateTime @default(now())
 }
 

@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Menu, ShoppingBag, User, X } from "lucide-react";
+import { Heart, Menu, ShoppingBag, User, X } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { CartDrawer } from "@/components/cart-drawer";
 import { TopBar } from "@/components/top-bar";
+import { SearchBar } from "@/components/search-bar";
 import { cartCount, useCartStore } from "@/lib/cart-store";
+import { wishlistCount, useWishlistStore } from "@/lib/wishlist-store";
 
 const NAV_LINKS = [
   { href: "/products", label: "All Jewelry" },
@@ -22,6 +24,7 @@ export function SiteHeader() {
   const [mounted, setMounted] = useState(false);
   const lines = useCartStore((s) => s.lines);
   const openCart = useCartStore((s) => s.open);
+  const wishlistItems = useWishlistStore((s) => s.items);
   const { data: session, status } = useSession();
 
   useEffect(() => setMounted(true), []);
@@ -61,6 +64,8 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-5">
+            <SearchBar />
+
             {mounted && status === "authenticated" && session?.user ? (
               <div className="relative">
                 <button
@@ -114,6 +119,15 @@ export function SiteHeader() {
                 <span className="hidden lg:inline">Sign In</span>
               </Link>
             )}
+
+            <Link href="/wishlist" className="relative" aria-label="Open wishlist">
+              <Heart className="h-5 w-5" />
+              {mounted && wishlistCount(wishlistItems) > 0 && (
+                <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">
+                  {wishlistCount(wishlistItems)}
+                </span>
+              )}
+            </Link>
 
             <button onClick={openCart} className="relative" aria-label="Open cart">
               <ShoppingBag className="h-5 w-5" />

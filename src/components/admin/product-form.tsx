@@ -57,7 +57,7 @@ export function ProductForm({
 
   return (
     <form action={handleSubmit} className="max-w-2xl space-y-6">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="name">Name</Label>
           <Input
@@ -86,7 +86,7 @@ export function ProductForm({
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <div className="space-y-2">
           <Label htmlFor="category">Category</Label>
           <Select name="category" defaultValue={product?.category ?? categories[0] ?? ""}>
@@ -126,7 +126,7 @@ export function ProductForm({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="compareAtPrice">Compare-at Price (optional)</Label>
           <Input

@@ -1,15 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Minus, Plus, ShieldCheck, Droplets, Gem } from "lucide-react";
+import { Heart, Minus, Plus, ShieldCheck, Droplets, Gem } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { formatPrice, type Product } from "@/lib/product-types";
 import { useCartStore } from "@/lib/cart-store";
+import { useWishlistStore } from "@/lib/wishlist-store";
+import { cn } from "@/lib/utils";
 
 export function ProductPurchasePanel({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((s) => s.addItem);
+  const toggleWishlist = useWishlistStore((s) => s.toggle);
+  const saved = useWishlistStore((s) => s.isSaved(product.id));
 
   return (
     <div className="flex flex-col">
@@ -64,6 +68,15 @@ export function ProductPurchasePanel({ product }: { product: Product }) {
           onClick={() => addItem(product, quantity)}
         >
           Add to Bag — {formatPrice(product.price * quantity)}
+        </Button>
+        <Button
+          size="icon"
+          variant="outline"
+          className="h-13 w-13 shrink-0 rounded-none"
+          onClick={() => toggleWishlist(product)}
+          aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}
+        >
+          <Heart className={cn("h-5 w-5", saved && "fill-primary text-primary")} />
         </Button>
       </div>
 

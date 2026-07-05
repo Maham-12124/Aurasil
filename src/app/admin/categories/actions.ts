@@ -15,18 +15,20 @@ function revalidateCategoryPages() {
 export async function createCategory(formData: FormData) {
   await requireAdmin();
   const name = String(formData.get("name") ?? "").trim();
+  const image = String(formData.get("image") ?? "").trim() || null;
   if (!name) throw new Error("Category name is required.");
 
   const existing = await prisma.category.findUnique({ where: { name } });
   if (existing) throw new Error(`"${name}" already exists.`);
 
-  await prisma.category.create({ data: { name } });
+  await prisma.category.create({ data: { name, image } });
   revalidateCategoryPages();
 }
 
 export async function renameCategory(id: string, formData: FormData) {
   await requireAdmin();
   const name = String(formData.get("name") ?? "").trim();
+  const image = String(formData.get("image") ?? "").trim() || null;
   if (!name) throw new Error("Category name is required.");
 
   const category = await prisma.category.findUnique({ where: { id } });
@@ -36,7 +38,7 @@ export async function renameCategory(id: string, formData: FormData) {
   if (existing && existing.id !== id) throw new Error(`"${name}" already exists.`);
 
   await prisma.$transaction([
-    prisma.category.update({ where: { id }, data: { name } }),
+    prisma.category.update({ where: { id }, data: { name, image } }),
     prisma.product.updateMany({ where: { category: category.name }, data: { category: name } }),
   ]);
   revalidateCategoryPages();

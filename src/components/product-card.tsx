@@ -2,13 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Heart, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatPrice, type Product } from "@/lib/product-types";
 import { useCartStore } from "@/lib/cart-store";
+import { useWishlistStore } from "@/lib/wishlist-store";
+import { cn } from "@/lib/utils";
 
 export function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((s) => s.addItem);
+  const toggleWishlist = useWishlistStore((s) => s.toggle);
+  const saved = useWishlistStore((s) => s.isSaved(product.id));
 
   return (
     <div className="group">
@@ -28,6 +32,21 @@ export function ProductCard({ product }: { product: Product }) {
             New
           </span>
         )}
+        <Button
+          size="icon"
+          variant="secondary"
+          className={cn(
+            "absolute right-3 top-3 h-9 w-9 rounded-none shadow-md transition-opacity duration-300",
+            saved ? "opacity-100" : "opacity-0 group-hover:opacity-100",
+          )}
+          onClick={(e) => {
+            e.preventDefault();
+            toggleWishlist(product);
+          }}
+          aria-label={saved ? `Remove ${product.name} from wishlist` : `Save ${product.name} to wishlist`}
+        >
+          <Heart className={cn("h-4 w-4", saved && "fill-primary text-primary")} />
+        </Button>
         <Button
           size="icon"
           variant="secondary"

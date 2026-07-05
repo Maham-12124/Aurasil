@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product-card";
-import { CategoryShowcase } from "@/components/category-showcase";
+import { CategoryShowcase, type ShowcaseCategory } from "@/components/category-showcase";
 import { SaleCarousel } from "@/components/sale-carousel";
 import { getAllProducts, getProductsByCollection, type Product } from "@/lib/products";
 import { getAllCategories } from "@/lib/categories";
@@ -24,13 +24,26 @@ export default async function Home() {
     (p) => p.compareAtPrice != null && p.compareAtPrice > p.price,
   );
 
-  const categoryShowcase = categories.map((category) => ({
+  const categoryShowcase: ShowcaseCategory[] = categories.map((category) => ({
     label: category.name,
     href: `/products?category=${category.name}`,
     image:
+      category.image ??
       allProducts.find((p) => p.category === category.name)?.image ??
       "/images/products/product-01.jpg",
   }));
+
+  if (onSale.length > 0) {
+    const bracelets = categoryShowcase.findIndex((c) => c.label === "Bracelets");
+    const saleTile = {
+      label: "Sale",
+      href: "/products?sale=true",
+      image: onSale[0].image,
+      blink: true,
+    };
+    const insertAt = bracelets === -1 ? categoryShowcase.length : bracelets + 1;
+    categoryShowcase.splice(insertAt, 0, saleTile);
+  }
 
   return (
     <div>

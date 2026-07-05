@@ -16,16 +16,16 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const session = await requireAdmin();
 
   return (
-    <div className="mx-auto flex max-w-7xl gap-10 px-4 py-10 sm:px-6 lg:px-8">
-      <aside className="w-48 shrink-0">
+    <div className="mx-auto max-w-7xl gap-10 px-4 py-6 sm:px-6 sm:py-10 lg:flex lg:px-8">
+      <aside className="mb-6 lg:mb-0 lg:w-48 lg:shrink-0">
         <p className="font-heading text-xl text-primary">Admin</p>
         <p className="mt-1 truncate text-xs text-muted-foreground">{session.user.email}</p>
-        <nav className="mt-8 flex flex-col gap-1">
+        <nav className="scrollbar-none mt-6 flex gap-1 overflow-x-auto lg:mt-8 lg:flex-col lg:overflow-visible">
           {ADMIN_NAV.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="px-2 py-2 text-sm uppercase tracking-widest text-foreground/80 hover:bg-muted hover:text-primary"
+              className="shrink-0 whitespace-nowrap px-2 py-2 text-sm uppercase tracking-widest text-foreground/80 hover:bg-muted hover:text-primary"
             >
               {link.label}
             </Link>
@@ -33,7 +33,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </nav>
         <Link
           href="/"
-          className="mt-8 block px-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-primary"
+          className="mt-4 block px-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-primary lg:mt-8"
         >
           ← Back to Store
         </Link>

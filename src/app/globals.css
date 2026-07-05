@@ -160,4 +160,17 @@
     background-size: 480px;
     background-repeat: repeat;
   }
+
+  .animate-blink {
+    animation: aurasil-blink 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes aurasil-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
 }
